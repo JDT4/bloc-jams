@@ -6,7 +6,7 @@ body.landing {
     min-height: 600px;
     background-image:url(../assets/images/bloc_jams_bg.jpg);
     background-repeat: no-repeat;
-    background-postion: center center;
+    background-position: center center;
     background-size:cover;
 }
 .hero-content .hero-title {
@@ -14,7 +14,7 @@ body.landing {
     top:40%;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
     width: 100%;
     text-align:center;
     font-size: 4rem;
@@ -25,18 +25,12 @@ body.landing {
 }
 .selling-points {
     position: relative;
-    display: table;
-    width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
 .point {
-    display: table-cell;
     position: relative;
-    width: 33.3%;
     padding: 2rem;
     text-align:center;
+    box-sizing: border-box;
 }
 .point .point-title {
     font-size: 1.25rem;
