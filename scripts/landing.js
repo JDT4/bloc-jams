@@ -1,22 +1,25 @@
-var points = document.getElementsByClassName('point');
-var revealPoint = function (index) {
-	points[index].style.opacity = 1;
-	points[index].style.transform = "scaleX(1) translate Y(0)";
-	points[index].style.msTransform = "scaleX(1) translateY(0)";
-	points[index].style.webkitTransform = "scaleX(1) translateY(0)";
+//Animating the points
+var pointsArray = document.getElementsByClassName('point');
+
+var revealPoint = function(point) {
+	point.style.opacity = 1;
+	point.style.transform = "scaleX(1) translate Y(0)";
+	point.style.msTransform = "scaleX(1) translateY(0)";
+	point.style.webkitTransform = "scaleX(1) translateY(0)";
 };
 
-//Function 2 does this
-var animatePoints = function () {
-	for (i = 0; i < points.length; i++) {
-		revealPoint(i);
-	}
+//Reveal points 
+var animatePoints = function(points) {
+cycleEach(points,revealPoint);
 };
+console.log(animatePoints);
 
-//Thing
-window.onload = function() {
+//animatePoints(pointsArray);
+
+//Run on scroll
+/*window.onload = function() {
 	     if (window.innerHeight > 950) {
-         animatePoints(revealPoint);
+         animatePoints(pointsArray);
      }
      var sellingPoints = document.getElementsByClassName('selling-points')[0];
      var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;
@@ -26,4 +29,14 @@ window.onload = function() {
              animatePoints(revealPoint);   
          }
      });
- };
+ };*/
+window.onload = function () {
+	if (window.innerHeight > 950) {
+         animatePoints(pointsArray);
+     }
+	window.addEventListener("scroll", function(event) {
+		if (pointsArray[0].getBoundingClientRect().top <= 500){
+			animatePoints(pointsArray);
+		}
+	});
+};
