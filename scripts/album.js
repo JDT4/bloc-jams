@@ -1,3 +1,4 @@
+//Album 1
 var albumPicasso = {
 	name: 'The Colors',
 	artist: 'Pablo Picasso',
@@ -27,7 +28,7 @@ var albumPicasso = {
 		}
      ]
 };
-
+//Album 2 
 var albumMarconi = {
 	name: 'The Telephone',
 	artist: 'Guglielmo Marconi',
@@ -57,12 +58,13 @@ var albumMarconi = {
 		}
      ]
 };
+//Album 3
 var albumKuKaChu = {
 	name: 'KuKaChu',
 	artist: 'KuKa Chuuu',
 	label: 'JB',
 	year: '1999',
-	albumArtUrl: 'assets/images/album_covers/20.png'
+	albumArtUrl: 'assets/images/album_covers/20.png',
 	songs: [
 		{
 			name: 'Divided we stand',
@@ -79,38 +81,40 @@ var albumKuKaChu = {
 
 	]
 };
-
+//Create Table with songs
 var createSongRow = function (songNumber, songName, songLength) {
 	var template =
 		'<tr class="album-view-song-item">' + '  <td class="song-item-number">' + songNumber + '</td>' + '  <td class="song-item-title">' + songName + '</td>' + '  <td class="song-item-duration">' + songLength + '</td>' + '</tr>';
-	return template
+
+	return template;
 };
+// Set album info
 var setCurrentAlbum = function (album) {
 	var albumTitle = document.getElementsByClassName('album-view-title')[0];
 	var albumArtist = document.getElementsByClassName('album-view-artist')[0];
 	var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
 	var albumImage = document.getElementsByClassName('album-cover-art')[0];
 	var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
-
-	// #2
 	albumTitle.firstChild.nodeValue = album.name;
 	albumArtist.firstChild.nodeValue = album.artist;
 	albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
 	albumImage.setAttribute('src', album.albumArtUrl);
-
-	// #3
 	albumSongList.innerHTML = '';
-
-	// #4
 	for (i = 0; i < album.songs.length; i++) {
 		albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
 	}
 };
-
+// Switch album on click
 window.onload = function () {
 	setCurrentAlbum(albumPicasso);
-};
-
-var toggleAlbum = function(){
-	
+	var albums = [albumPicasso, albumKuKaChu, albumMarconi];
+	var current = 1;
+	var albumImage = document.getElementsByClassName('album-cover-art');
+	window.addEventListener("click", function () {
+		setCurrentAlbum(albums[current]);
+		current++;
+		if (current == albums.length) {
+			current = 0;
+		}
+	});
 };
