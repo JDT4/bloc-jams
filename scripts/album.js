@@ -84,7 +84,7 @@ var albumKuKaChu = {
 //Create Table with songs
 var createSongRow = function (songNumber, songName, songLength) {
 	var template =
-		'<tr class="album-view-song-item">' + '  <td class="song-item-number">' + songNumber + '</td>' + '  <td class="song-item-title">' + songName + '</td>' + '  <td class="song-item-duration">' + songLength + '</td>' + '</tr>';
+		'<tr class="album-view-song-item">' + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>' + '  <td class="song-item-title">' + songName + '</td>' + '  <td class="song-item-duration">' + songLength + '</td>' + '</tr>';
 
 	return template;
 };
@@ -104,17 +104,44 @@ var setCurrentAlbum = function (album) {
 		albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
 	}
 };
-// Switch album on click
+
+
+// Change play button variables
+var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+var songRows = document.getElementsByClassName('album-view-song-item');
+var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
+//Hover to change play button
 window.onload = function () {
-	setCurrentAlbum(albumPicasso);
-	var albums = [albumPicasso, albumKuKaChu, albumMarconi];
-	var current = 1;
-	var albumImage = document.getElementsByClassName('album-cover-art');
-	window.addEventListener("click", function () {
-		setCurrentAlbum(albums[current]);
-		current++;
-		if (current == albums.length) {
-			current = 0;
-		}
-	});
+		 songListContainer.addEventListener("click", function(event) {
+         console.log(event.target);
+         // Only target individual song rows during event delegation
+         if (event.target.parentElement.className === 'album-view-song-item') {
+             // Change the content from the number to the play button's HTML
+         }
+     });
 };
+
+/*		//Change back to regular doesn't work
+for (i = 0; i < songRows.length; i++) {
+	songRows[i].addEventListener('mouseleave', function (event) {
+		alert(hello);
+		this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+	});
+}*/
+
+		window.onload = function () {
+			// Switch album variables
+			var albumImage = document.getElementsByClassName('album-cover-art')[0];
+			var albums = [albumPicasso, albumKuKaChu, albumMarconi];
+			var current = 1;
+			// Switch album on click
+			setCurrentAlbum(albumPicasso);
+			albumImage.addEventListener("click", function () {
+				setCurrentAlbum(albums[current]);
+				current++;
+				if (current == albums.length) {
+					current = 0;
+				}
+			});
+		};
