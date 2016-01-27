@@ -65,8 +65,6 @@ body {
     }
     .column {
         float: left;
-        padding-right: 1rem;
-        padding-left: 1rem;
     }
     .column.full {
         width: 100%;
