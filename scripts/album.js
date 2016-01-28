@@ -110,7 +110,7 @@ var songListContainer = document.getElementsByClassName('album-view-song-list')[
 var songRows = document.getElementsByClassName('album-view-song-item');
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 
-//Hover to change play button (works)
+//Hover to change play button
 var playHover = function () {
 	songListContainer.addEventListener("mouseover", function (event) {
 		if (event.target.parentElement.className === 'album-view-song-item') {
@@ -119,16 +119,12 @@ var playHover = function () {
 	});
 };
 
-//Change back to regular (doesn't work)
-var test = function () {
-console.log(songRows); //test works
+//Change back to regular
+var playLeave = function () {
 	for (i = 0; i < songRows.length; i++) {
-		console.log(songRows[i]); //test fails
-		/*songRows[i].addEventListener("click", function (event) {
-			alert("hello"); //test fails
-			//console.log(event.target);
+		songRows[i].addEventListener("mouseleave", function (event) {
 			this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
-		});*/
+		});
 	}
 };
 
@@ -138,15 +134,17 @@ window.onload = function () {
 	var albumImage = document.getElementsByClassName('album-cover-art')[0];
 	var albums = [albumPicasso, albumKuKaChu, albumMarconi];
 	var current = 1;
-//	playHover();
-	test();
+	
 	// Switch album on click
 	setCurrentAlbum(albumPicasso);
 	albumImage.addEventListener("click", function () {
 		setCurrentAlbum(albums[current]);
 		current++;
+		playLeave();
 		if (current == albums.length) {
 			current = 0;
 		}
 	});
+	playHover();
+	playLeave();
 };
