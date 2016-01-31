@@ -142,24 +142,38 @@ var playLeave = function () {
 
 };
 
-//Find song-item-number class
-/*var findParentByClassName = function (element, typeClass) {
-	var currentClick = element.parentElement;
-	if (currentClick.className != typeClass) {
-		currentClick = currentClick.parentElement;
-	} else {
-		console.log(current);
-	}
-};*/
-//Find song-item-number class Bloc solution
+//Find song-item-number class refactor my solution
+/*var findParentByClassName = function (element, targetClass) {
+		var currentParent = element.parentElement;
+		if (currentParent) {
+			while (currentParent.className != targetClass) {
+				currentParent = currentParent.parentElement;
+			}
+			if (currentParent == targetClass) {
+				return currentParent;
+			} else if (currentParent == window) {
+				alert("No parent found with that class name")
+			} else {
+				alert("No parent found")
+			}
+		};*/
+
+// Find song-item-number class bloc solution
 var findParentByClassName = function (element, targetClass) {
 	var currentParent = element.parentElement;
-	while (currentParent.className != targetClass) {
-		currentParent = currentParent.parentElement;
+	if (currentParent) {
+		while (currentParent.className && currentParent.className != targetClass) {
+			currentParent = currentParent.parentElement;
+		}
+		if (currentParent == targetClass) {
+			return currentParent;
+		} else {
+			alert("No parent found with that class name")
+		}
+	} else {
+		alert("No parent found")
 	}
-	return currentParent;
 };
-
 // Return the song item number using the find Parent function
 var getSongItem = function (element) {
 	switch (element.className) {
