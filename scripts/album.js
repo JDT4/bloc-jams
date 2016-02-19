@@ -91,18 +91,19 @@ var createSongRow = function (songNumber, songName, songLength) {
 };
 // Set album info
 var setCurrentAlbum = function (album) {
-	var $albumTitle = $('.album-view-title');
-	var $albumArtist = $('.album-view-artist');
-	var $albumReleaseInfo = $('.album-view-release-info');
-	var $albumImage = $('.album-cover-art');
-	var $albumSongList = $('.album-view-song-list');
-	$albumTitle.text(album.name);
-	$albumArtist.text(album.artist);
-	$albumReleaseInfo.text(album.year + ' ' + album.label);
-	$albumImage.attr('src', album.albumArtUrl);
-	$albumSongList.empty();
+	var albumTitle = $('.album-view-title');
+	var albumArtist = $('.album-view-artist');
+	console.log(albumTitle);
+	var albumReleaseInfo = $('.album-view-release-info');
+	var albumImage = $('.album-cover-art');
+	var albumSongList = $('.album-view-song-list');
+	albumTitle.text(album.name);
+	albumArtist.text(album.artist);
+	albumReleaseInfo.text(album.year + ' ' + album.label);
+	albumImage.attr('src', album.albumArtUrl);
+	albumSongList.empty();
 	for (i = 0; i < album.songs.length; i++) {
-		var $newRow = createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
+		var newRow = createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
 		$albumSongList.append($newRow);
 	}
 };
@@ -142,9 +143,6 @@ var playLeave = function () {
 	}
 
 };
-
-//Find song-item-number class refactor my solution
-
 // Find song-item-number class bloc solution
 var findParentByClassName = function (element, targetClass) {
 	var currentParent = element.parentElement;
