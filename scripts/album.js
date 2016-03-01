@@ -1,3 +1,9 @@
+var currentAlbum = null;
+var currentlyPlayingSongNumber = null;
+var currentSongFromAlbum = null;
+var currentSoundFile = null;
+var currentVolume = 80;
+
 //Create Table with songs
 var createSongRow = function (songNumber, songName, songLength) {
 	var template =
@@ -28,8 +34,23 @@ var createSongRow = function (songNumber, songName, songLength) {
 
 //Set song function
 var setSong = function (songNumber) {
+	if (currentSoundFile) {
+		currentSoundFile.stop();
+	}
 	currentlyPlayingSongNumber = parseInt(songNumber);
 	currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+	currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
+		formats: ['mp3'],
+		preload: true
+	});
+	setVolume(currentVolume);
+};
+
+//Set Volume function
+var setVolume = function(volume) {
+	if (currentSoundFile) {
+		currentSoundFile.setVolume(volume);
+	}
 };
 
 //Song number cell
@@ -66,10 +87,6 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
 var playerBarPlayButton = '<span class="ion-play"></span>';
 var playerBarPauseButton = '<span class="ion-pause"></span>';
 
-var currentAlbum = null;
-var currentlyPlayingSongNumber = null;
-var currentSongFromAlbum = null;
-
 var clickHandler = function () {
 	var songNumber = parseInt($(this).attr('data-song-number'));
 	if (currentlyPlayingSongNumber !== null) {
@@ -79,14 +96,21 @@ var clickHandler = function () {
 		updatePlayerBarSong();
 	}
 	if (currentlyPlayingSongNumber !== songNumber) {
-		$(this).html(pauseButtonTemplate);
 		setSong(songNumber);
+		currentSoundFile.play();
+		$(this).html(pauseButtonTemplate);
+		//currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 		updatePlayerBarSong();
 	} else if (currentlyPlayingSongNumber === songNumber) {
-		$(this).html(playButtonTemplate);
-		$('.main-controls .play-pause').html(playerBarPlayButton);
-		currentlyPlayingSongNumber = null;
-		currentSongFromAlbum = null;
+		if (currentSoundFile.isPaused()) {
+			$(this).html(pauseButtonTemplate);
+			$('.main-controls .play-pause').html(playerBarPauseButton);
+			currentSoundFile.play();
+		} else {
+			$(this).html(playButtonTemplate);
+			$('.main-controls .play-pause').html(playerBarPlayButton);
+			currentSoundFile.pause();
+		}
 	}
 
 };
@@ -111,10 +135,8 @@ var previousSong = function () {
 		currentSongIndex = currentAlbum.songs.length - 1;
 	}
 
-	//setSong(currentSongIndex);
-	currentlyPlayingSongNumber = parseInt(currentSongIndex + 1);
-	currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
-
+	setSong(currentSongIndex + 1);
+	currentSoundFile.play();
 	updatePlayerBarSong();
 
 	var lastSongNumber = getLastSongNumber(currentSongIndex);
@@ -137,10 +159,8 @@ nextSong = function () {
 	if (currentindex >= currentAlbum.songs.length) {
 		currentindex = 0;
 	}
-	//setSong(currentindex);
-	currentlyPlayingSongNumber = parseInt(currentindex + 1);
-	currentSongFromAlbum = currentAlbum.songs[currentindex];
-
+	setSong(currentindex + 1);
+	currentSoundFile.play();
 	updatePlayerBarSong();
 
 	var lastSongnumber = lastSong(currentindex);
