@@ -81,11 +81,29 @@ var trackIndex = function (album, song) {
 	return album.songs.indexOf(song);
 };
 
+var togglePlayFromPlayerBar = function() {
+	var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+	if (currentSoundFile.isPaused()) {
+		currentlyPlayingCell.html(pauseButtonTemplate);
+		$(this).html(playerBarPauseButton);
+		currentSoundFile.play();
+	} else if (currentSoundFile) {
+		currentlyPlayingCell.html(playButtonTemplate);
+		$(this).html(playerBarPlayButton);
+		currentSoundFile.pause();
+	}
+};
+
 // Change play button variables
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
 var playerBarPauseButton = '<span class="ion-pause"></span>';
+
+var $previousButton = $('.main-controls .previous');
+var $nextButton = $('.main-controls .next');
+
+var $playPauseButton =$('.main-controls .play-pause');
 
 var clickHandler = function () {
 	var songNumber = parseInt($(this).attr('data-song-number'));
@@ -172,8 +190,6 @@ nextSong = function () {
 };
 
 
-var $previousButton = $('.main-controls .previous');
-var $nextButton = $('.main-controls .next');
 
 $(document).ready(function () {
 	// Switch album variables
@@ -190,4 +206,5 @@ $(document).ready(function () {
 	});
 	$previousButton.click(previousSong);
 	$nextButton.click(nextSong);
+	$playPauseButton.click(togglePlayFromPlayerBar);
 });
